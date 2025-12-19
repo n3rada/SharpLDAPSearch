@@ -7,11 +7,11 @@
     <Platform Condition="'$(Platform)' == ''">AnyCPU</Platform>
     <ProjectGuid>{508877E3-251F-4FA3-B7C7-F3134BD46D45}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>MSSQLand</RootNamespace>
-    <AssemblyName>MSSQLand</AssemblyName>
+    <RootNamespace>SharpLDAPSearch</RootNamespace>
+    <AssemblyName>SharpLDAPSearch</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <LangVersion>11.0</LangVersion>
-    <StartupObject>MSSQLand.Program</StartupObject>
+    <StartupObject>SharpLDAPSearch.Program</StartupObject>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -72,4 +72,5 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 
 </Project>
+
 
