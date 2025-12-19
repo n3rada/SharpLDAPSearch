@@ -9,18 +9,55 @@ namespace SharpLDAPSearch
     {
         static void Main(string[] args)
         {
-            DirectoryEntry entry = new DirectoryEntry();
+            string serverName = null;
+            
+            // Check for -Server parameter
+            for (int i = 0; i < args.Length; i++)
+            {
+                if (args[i].Equals("-Server", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (i + 1 < args.Length)
+                    {
+                        serverName = args[i + 1];
+                    }
+                    break;
+                }
+            }
+            
+            // Create DirectoryEntry with optional server
+            DirectoryEntry entry;
+            if (!string.IsNullOrEmpty(serverName))
+            {
+                entry = new DirectoryEntry("LDAP://" + serverName);
+            }
+            else
+            {
+                entry = new DirectoryEntry();
+            }
+            
             DirectorySearcher mySearcher = new DirectorySearcher(entry);
             List<string> searchProperties = new List<string>();
             //get LDAP search filter
-            if (args.Length > 0)
+            // Skip -Server and its value when processing positional arguments
+            List<string> positionalArgs = new List<string>();
+            for (int i = 0; i < args.Length; i++)
+            {
+                if (args[i].Equals("-Server", StringComparison.OrdinalIgnoreCase))
+                {
+                    i++; // Skip the server value too
+                    continue;
+                }
+                positionalArgs.Add(args[i]);
+            }
+            
+            if (positionalArgs.Count > 0)
             {
                 //example LDAP filter
                 //mySearcher.Filter = ("(&(objectCategory=computer)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))");
-                mySearcher.Filter = args[0];
-                if (args.Length > 1)
+                mySearcher.Filter = positionalArgs[0];
+                if (positionalArgs.Count > 1)
                 {
-                    searchProperties = args[1].Split(',').ToList();
+                    searchProperties = positionalArgs[1].Split(',').ToList();
                     foreach (string myKey in searchProperties)
                     {
                         mySearcher.PropertiesToLoad.Add(myKey);
@@ -30,6 +67,7 @@ namespace SharpLDAPSearch
             else
             {
                 Console.WriteLine("[!] No LDAP search provided");
+                Console.WriteLine("Usage: SharpLDAPSearch.exe \"(LDAP filter)\" [\"property1,property2,...\"] [-Server servername]");
                 Environment.Exit(0);
             }
 
