@@ -68,7 +68,7 @@ namespace SharpLDAPSearch
             {
                 Console.WriteLine("[!] No LDAP search provided");
                 Console.WriteLine("Usage: SharpLDAPSearch.exe \"(LDAP filter)\" [\"property1,property2,...\"] [-Server servername]");
-                Environment.Exit(0);
+                return;
             }
 
             mySearcher.SizeLimit = int.MaxValue;
